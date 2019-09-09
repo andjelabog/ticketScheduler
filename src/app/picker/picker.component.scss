@@ -1,0 +1,32 @@
+.picker-card {
+    width: 50vw;
+    height: 35vh;
+    position: fixed;
+    top: calc( 50% - 17.5vh);
+    left: calc( 50% - 25vw);
+}
+
+.slider-margin {
+    margin: 10px;
+    width: 100%;
+}
+
+.full-width {
+    width: 70%;
+    text-align: center;
+}
+
+::ng-deep .mat-accent .mat-slider-thumb {
+    background-color: #f44336;
+    color: white
+}
+
+::ng-deep .mat-accent .mat-slider-thumb-label {
+    background-color: #f44336;
+    color: white
+}
+
+::ng-deep .mat-accent .mat-slider-track-fill {
+    background-color: #f44336;
+    color: white
+}
