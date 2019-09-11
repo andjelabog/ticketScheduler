@@ -1,26 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+export interface Process {
+  id: number;
+  priority: number;
+  burstTime: number;
+  tickets: number[];
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-
-
 @Component({
   selector: 'app-simulation',
   templateUrl: './simulation.component.html',
@@ -28,12 +13,52 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SimulationComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-  
+  numberOfProcesses: number = 18;
+  arrayOfProcesses: Process[] = new Array<Process>();
+  chosenTicketNumber : number = -1;
   constructor() { }
 
+  initProcesses() {
+    for (let i = 0; i < this.numberOfProcesses; i++) {
+      let process: Process = {
+        id: i,
+        priority: Math.floor(1 + Math.random() * this.numberOfProcesses),                      // Poslati iz picker.component
+        burstTime: Math.floor(1 + Math.random() * 10),                                         // Poslati iz picker.component
+        tickets: [] = []
+      }
+      let ticketForSelectedProcess = Math.floor(Math.random() * 10)
+      for (let j = 0; j < ticketForSelectedProcess; j++) {
+        process.tickets[j] = Math.floor(Math.random() * 100);
+      }
+      this.arrayOfProcesses.push(process);
+    }
+  }
+
+  sortProcessesByPriority() {
+    this.arrayOfProcesses.sort((a, b) => {
+      if (a.priority === b.priority) {
+        return a.burstTime - b.burstTime;
+      }
+      return a.priority > b.priority ? 1 : -1;
+    })
+  }
+
+  findProcessToExecute(ticketNumber: number) {
+    for (let i = 0; i < this.numberOfProcesses; i++) {
+      for (let j = 0; j < this.arrayOfProcesses[i].tickets.length; j++) {
+        if (this.arrayOfProcesses[i].tickets[j] == ticketNumber)
+          return this.arrayOfProcesses[i].id;
+      }
+    }
+  }
+
+  getSchedulersTicketNumber(){
+    this.chosenTicketNumber = Math.floor(Math.random() * 100);
+  }
+
   ngOnInit() {
+    this.initProcesses();
+    this.sortProcessesByPriority();
   }
 
 }
