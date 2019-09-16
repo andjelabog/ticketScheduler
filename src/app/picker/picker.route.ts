@@ -3,5 +3,5 @@ import { PickerComponent } from './picker.component';
 
 export const pickerRoute : Route = {
     path: 'picker',
-    component: PickerComponent,
+    component: PickerComponent
 }

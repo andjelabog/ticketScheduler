@@ -13,7 +13,8 @@ export class PickerComponent implements OnInit {
   min: number;
   step: number;
   thumbLabel: boolean;
-  value: number;
+  value: number = 5;
+  seconds: number = 5;
 
   private _tickInterval = 1;
   get tickInterval(): number | 'auto' {
@@ -33,10 +34,12 @@ export class PickerComponent implements OnInit {
     this.min = 0;
     this.step = 1;
     this.thumbLabel = true;
-    this.value = 0;
+    this.value = 5;
   }
 
   watchSimulation() {
+    localStorage.setItem("seconds",this.seconds.toString());
+    localStorage.setItem("numberOfProcesses",this.value.toString());
     this.router.navigate(['simulation'])
   }
 }

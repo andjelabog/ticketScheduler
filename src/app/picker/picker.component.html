@@ -1,31 +1,47 @@
-<mat-card class="picker-card">
-    <mat-card-header>
-        <mat-card-title style="text-align: center">Select the number of processes</mat-card-title>
-        <mat-card-subtitle>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <mat-grid-list cols="3" rowHeight="3:1">
-            <mat-grid-tile>
-                <mat-form-field class="full-width">
-                    <input type="number" matInput placeholder="Min. number" [(ngModel)]="min">
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <mat-form-field class="full-width">
-                    <input type="number" matInput placeholder="Max. number" [(ngModel)]="max">
-                </mat-form-field>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <mat-form-field class="full-width">
-                    <input type="number" matInput placeholder="Step" [(ngModel)]="step">
-                </mat-form-field>
-            </mat-grid-tile>
-        </mat-grid-list>
-        <mat-slider class="slider-margin" [max]="max" [min]="min" [step]="step" [thumbLabel]="thumbLabel" [tickInterval]="tickInterval" [(ngModel)]="value">
-        </mat-slider>
-    </mat-card-content>
-    <mat-card-actions class="action-bar">
-        <button mat-raised-button color="warn" (click)="resetData()">RESET</button>
-        <button mat-raised-button color="primary" (click)="watchSimulation()">WATCH SIMULATION</button>
-    </mat-card-actions>
-</mat-card>
+<div class="row align-middle clearfix">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <mat-card class="picker-card">
+            <mat-card-header class="text-center" >
+                <mat-card-title class="float-none">Configuration for simulation</mat-card-title>
+                <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-grid-list cols="3" rowHeight="3:1">
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width">
+                            <input type="number" matInput placeholder="Min. number of processes" [(ngModel)]="min">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width">
+                            <input type="number" matInput placeholder="Max. number of processes" [(ngModel)]="max">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class="full-width">
+                            <input type="number" matInput placeholder="Step" [(ngModel)]="step">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <label for="numberOfProcesses"> Please select the number of processes <span  style="text-decoration: underline; color: rgba(244, 67, 54,0.7)"> ({{value}})</span></label>
+                <mat-slider id="numberOfProcesses" class="slider-margin" [max]="max" [min]="min" [step]="step"
+                    [thumbLabel]="thumbLabel" [(ngModel)]="value">
+                </mat-slider>
+                <label for="seconds" > Please select the time of picking the next number<span style="text-decoration: underline; color: rgba(244, 67, 54,0.7)"> ({{seconds}}) </span></label>
+                <mat-slider id="seconds" class="slider-margin" max="100" min="1" step="1" [thumbLabel]="thumbLabel"
+                    [(ngModel)]="seconds">
+                </mat-slider>
+                <br>
+                <button mat-raised-button color="warn" (click)="resetData()">RESET <i class="material-icons">
+                        refresh
+                    </i></button>
+                <button mat-raised-button class="float-right" color="primary" (click)="watchSimulation()">WATCH
+                    SIMULATION <i class="material-icons">
+                        arrow_right_alt
+                    </i></button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-sm-3"></div>
+</div>

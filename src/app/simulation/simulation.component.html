@@ -1,9 +1,50 @@
-<table>
-    <thead>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of niz">
-            <td *ngFor="let list of niz ">{{item}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <mat-card class="picker-card">
+            <mat-card-header class="text-center" style="text-align: center">
+                <mat-card-title *ngIf="chosenTicketNumber!=-1">SCHEDULER'S NUMBER : <span
+                        style="color:rgba(244, 67, 54,0.7)">{{chosenTicketNumber}} </span></mat-card-title>
+                        <mat-card-subtitle></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-table [dataSource]="arrayOfProcesses" class="example-container mat-elevation-z10">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.id +1}} </mat-cell>
+                    </ng-container>
+
+                    <!-- Priority Column -->
+                    <ng-container matColumnDef="priority">
+                        <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.priority}} </mat-cell>
+                    </ng-container>
+
+                    <!-- Burst Time Column -->
+                    <ng-container matColumnDef="burstTime">
+                        <mat-header-cell *matHeaderCellDef> Burst Time </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <mat-progress-bar style="width: 50%" color="warn" mode="determinate"
+                                [value]="element.burstTime * 10">
+                            </mat-progress-bar>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- Tickets Column -->
+                    <ng-container matColumnDef="tickets">
+                        <mat-header-cell *matHeaderCellDef> Tickets </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.tickets}} </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let element; columns: displayedColumns;"
+                        [class]="(chosenProcessToRun != null && chosenProcessToRun.id == element.id) ? 'currentlyActive' : 'notActive'"
+                        [ngClass]="(element.burstTime == 0) ? 'processFinished' : ''">
+                    </mat-row>
+                </mat-table>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
