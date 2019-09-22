@@ -4,11 +4,15 @@
         <mat-card class="picker-card">
             <mat-card-header class="text-center" style="text-align: center">
                 <mat-card-title *ngIf="chosenTicketNumber!=-1">SCHEDULER'S NUMBER : <span
-                        style="color:rgba(244, 67, 54,0.7)">{{chosenTicketNumber}} </span></mat-card-title>
-                        <mat-card-subtitle></mat-card-subtitle>
+                        style="color:rgba(244, 67, 54,0.7)">{{chosenTicketNumber}} </span><br></mat-card-title>
+                <mat-card-subtitle>
+                    <br>
+                    <button mat-raised-button color="warn" (click)="addNewProcess(null)">Add new process <i class="material-icons">plus</i></button>
+                    <button mat-raised-button color="accent" *ngIf="finishedMainLoop" (click)="rerouteToCharts()">To charts!<i class="material-icons">plus</i></button>
+                </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <mat-table [dataSource]="arrayOfProcesses" class="example-container mat-elevation-z10">
+                <mat-table [dataSource]="dataSource" class="example-container mat-elevation-z10">
                     <!-- ID Column -->
                     <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>

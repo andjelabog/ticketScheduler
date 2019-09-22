@@ -28,10 +28,10 @@
                 <mat-slider id="numberOfProcesses" class="slider-margin" [max]="max" [min]="min" [step]="step"
                     [thumbLabel]="thumbLabel" [(ngModel)]="value">
                 </mat-slider>
-                <label for="seconds" > Please select the time of picking the next number<span style="text-decoration: underline; color: rgba(244, 67, 54,0.7)"> ({{seconds}}) </span></label>
-                <mat-slider id="seconds" class="slider-margin" max="100" min="1" step="1" [thumbLabel]="thumbLabel"
+                <!-- <label for="seconds" > Please select the time of picking the next number<span style="text-decoration: underline; color: rgba(244, 67, 54,0.7)"> ({{seconds}}) </span></label> -->
+                <!-- <mat-slider id="seconds" class="slider-margin" max="10" min="1" step="1" [thumbLabel]="thumbLabel"
                     [(ngModel)]="seconds">
-                </mat-slider>
+                </mat-slider> -->
                 <br>
                 <button mat-raised-button color="warn" (click)="resetData()">RESET <i class="material-icons">
                         refresh
@@ -44,4 +44,27 @@
         </mat-card>
     </div>
     <div class="col-sm-3"></div>
+</div>
+<div class="row">
+
+      <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Lottery scheduling</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body"  style="white-space: pre-line;">
+                {{textToShow}}
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button *ngIf="!shown" type="button" class="btn btn-primary" (click)="showMore()">Show more</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 </div>

@@ -8,12 +8,14 @@ import { PickerComponent } from './picker/picker.component';
 import { AngularMaterialModule } from '../core/angular-material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SimulationComponent } from './simulation/simulation.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PickerComponent,
-    SimulationComponent
+    SimulationComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
