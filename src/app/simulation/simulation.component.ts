@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Chart } from 'chart.js';
+
+
+declare var $: any;
 
 export interface Process {
   id: number;
   priority: number;
   burstTime: number;
+  startingBurstTime: number;
   tickets: number[];
 }
 
@@ -21,6 +26,7 @@ export interface DataDates {
 export class SimulationComponent implements OnInit {
 
   numberOfProcesses: number = 10;
+  maxNumberOfProcesses: number = 11;
   arrayOfProcesses: Process[] = new Array<Process>();
   chosenTicketNumber: number = -1;
   chosenProcessToRun: Process = null;
@@ -33,8 +39,10 @@ export class SimulationComponent implements OnInit {
   dataSource: MatTableDataSource<Process>;
 
 
-  dateWhenAllStarted: Date;
+  dateWhenAllStarted: DataDates[] = new Array<DataDates>();
   datesForProcessesCompletion: DataDates[] = new Array<DataDates>();
+  ids = new Array();
+  times: number[] = new Array<number>();
 
   constructor(private router: Router) { }
 
@@ -52,10 +60,17 @@ export class SimulationComponent implements OnInit {
       this.numberOfProcesses += 1;
       i = this.numberOfProcesses - 1;
     }
+    let dataDate: DataDates = {
+      id: i,
+      time: new Date()
+    }
+    this.dateWhenAllStarted.push(dataDate);
+    let bt = Math.floor(1 + Math.random() * 10);
     let process: Process = {
       id: i,
       priority: Math.floor(1 + Math.random() * this.numberOfProcesses),
-      burstTime: Math.floor(1 + Math.random() * 10),
+      burstTime: bt,
+      startingBurstTime: bt,
       tickets: [] = []
     }
     let ticketForSelectedProcess = Math.floor(Math.random() * 10) + 1;
@@ -150,28 +165,66 @@ export class SimulationComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (!!localStorage.getItem("seconds")) {
-    //   this.sleepTime = Number(localStorage.getItem("seconds")) * 1000;
-    // }
     if (!!localStorage.getItem("numberOfProcesses")) {
       this.numberOfProcesses = Number(localStorage.getItem("numberOfProcesses"));
     }
-    else{
+    else {
       this.router.navigate(['picker'])
+    }
+    if (!!localStorage.getItem("maxNumber")) {
+      this.maxNumberOfProcesses = Number(localStorage.getItem("maxNumber"));
     }
     this.initProcesses();
     this.sortProcessesByPriority();
     this.sortTickets();
-    this.dateWhenAllStarted = new Date();
     this.mainLoop();
   }
 
   rerouteToCharts() {
-    this.datesForProcessesCompletion.sort( (a,b)=> {
+    this.datesForProcessesCompletion.sort((a, b) => {
       return a.id - b.id
     })
-    localStorage.setItem("dates", JSON.stringify(this.datesForProcessesCompletion));
-    localStorage.setItem("date", JSON.stringify(this.dateWhenAllStarted));
-    this.router.navigate(['chart'])
+    $('#myModal').modal({ show: true, focus: true })
+    this.drawChart();
+  }
+
+  drawChart() {
+    this.ids = new Array();
+    this.times = new Array<number>();
+    this.datesForProcessesCompletion.sort( (a,b) => {return a.id - b.id })
+    this.dateWhenAllStarted.sort( (a,b) => {return a.id - b.id })
+    for (let i = 0; i < this.numberOfProcesses; i++) {
+      this.ids.push("ID:" + (i + 1));
+      this.times.push(((this.datesForProcessesCompletion[i].time.getTime() - this.dateWhenAllStarted[i].time.getTime())/1000) / this.arrayOfProcesses[i].startingBurstTime);
+    }
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      labels: 'Tr/Ts',
+      data: {
+        labels: this.ids,
+        datasets: [
+          {
+            data: this.times,
+            borderColor: '#f44336',
+            fill: true
+          }
+        ]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+          }],
+          yAxes: [{
+            display: true,
+            labelString: 'Tr/Ts'
+          }],
+        }
+      }
+    });
   }
 }

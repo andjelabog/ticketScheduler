@@ -3,12 +3,14 @@
     <div class="col-sm-8">
         <mat-card class="picker-card">
             <mat-card-header class="text-center" style="text-align: center">
-                <mat-card-title *ngIf="chosenTicketNumber!=-1">SCHEDULER'S NUMBER : <span
-                        style="color:rgba(244, 67, 54,0.7)">{{chosenTicketNumber}} </span><br></mat-card-title>
+                <mat-card-title *ngIf="chosenTicketNumber!=-1">RASPOREDJIVAC BIRA : <span
+                        style="color:rgba(244, 67, 54,0.7)">{{chosenTicketNumber}} </span></mat-card-title>
                 <mat-card-subtitle>
                     <br>
-                    <button mat-raised-button color="warn" (click)="addNewProcess(null)">Add new process <i class="material-icons">plus</i></button>
-                    <button mat-raised-button color="accent" *ngIf="finishedMainLoop" (click)="rerouteToCharts()">To charts!<i class="material-icons">plus</i></button>
+                    <button [disabled]="numberOfProcesses>=maxNumberOfProcesses" mat-raised-button color="warn" (click)="addNewProcess(null)">Dodaj novi proces <i
+                            class="material-icons">plus</i></button>
+                    <button mat-raised-button color="accent" *ngIf="finishedMainLoop" (click)="rerouteToCharts()">Pokazi
+                        izvestaj!<i class="material-icons">plus</i></button>
                 </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
@@ -21,13 +23,13 @@
 
                     <!-- Priority Column -->
                     <ng-container matColumnDef="priority">
-                        <mat-header-cell *matHeaderCellDef> Priority </mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef> Prioritet </mat-header-cell>
                         <mat-cell *matCellDef="let element"> {{element.priority}} </mat-cell>
                     </ng-container>
 
                     <!-- Burst Time Column -->
                     <ng-container matColumnDef="burstTime">
-                        <mat-header-cell *matHeaderCellDef> Burst Time </mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef> Vreme rada </mat-header-cell>
                         <mat-cell *matCellDef="let element">
                             <mat-progress-bar style="width: 50%" color="warn" mode="determinate"
                                 [value]="element.burstTime * 10">
@@ -37,7 +39,7 @@
 
                     <!-- Tickets Column -->
                     <ng-container matColumnDef="tickets">
-                        <mat-header-cell *matHeaderCellDef> Tickets </mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef> Tiketi </mat-header-cell>
                         <mat-cell *matCellDef="let element"> {{element.tickets}} </mat-cell>
                     </ng-container>
 
@@ -51,4 +53,32 @@
         </mat-card>
     </div>
     <div class="col-sm-2"></div>
+</div>
+
+<div class="row">
+    <div class="modal fade bd-example-modal-lg" id="myModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Tr/Ts po procesu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-8">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
